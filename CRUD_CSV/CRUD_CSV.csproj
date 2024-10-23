@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <Folder Include="File\" />
-    <Folder Include="Strategy\" />
   </ItemGroup>
 
   <ItemGroup>
