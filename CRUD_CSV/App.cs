@@ -12,10 +12,6 @@ namespace CRUD_CSV
         {
             // Autofac
             var myContainer = ProgramModule.Setup();
-
-            // Setup objects using Autofac
-            //var csvManager = myContainer.Resolve<CsvManager>();
-            //var csvService = myContainer.Resolve<ICsvService>();
             var menu = myContainer.Resolve<Menu>();
             
             // Showtime

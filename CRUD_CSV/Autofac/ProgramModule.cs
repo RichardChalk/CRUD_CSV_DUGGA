@@ -21,21 +21,13 @@ namespace CRUD_CSV.Autofac
                .As<ICsvService>();
 
             // Menu strategier
-            builder.RegisterType<CreateMenuStrategy>()
-                .As<IMenuStrategy>()
-                .Keyed<IMenuStrategy>(ConsoleKey.C);
-            builder.RegisterType<ReadMenuStrategy>()
-                .As<IMenuStrategy>()
-                .Keyed<IMenuStrategy>(ConsoleKey.R);
-            builder.RegisterType<UpdateMenuStrategy>()
-                .As<IMenuStrategy>()
-                .Keyed<IMenuStrategy>(ConsoleKey.U);
-            builder.RegisterType<DeleteMenuStrategy>()
-                .As<IMenuStrategy>()
-                .Keyed<IMenuStrategy>(ConsoleKey.D);
+            builder.RegisterType<CreateMenuStrategy>().As<IMenuStrategy>();
+            builder.RegisterType<ReadMenuStrategy>().As<IMenuStrategy>();
+            builder.RegisterType<UpdateMenuStrategy>().As<IMenuStrategy>();
+            builder.RegisterType<DeleteMenuStrategy>().As<IMenuStrategy>();
 
             builder.RegisterType<Menu>()
-               .AsSelf();
+                           .AsSelf();
         }
 
         public static IContainer Setup()

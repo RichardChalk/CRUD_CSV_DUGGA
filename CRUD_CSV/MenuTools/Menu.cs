@@ -1,23 +1,17 @@
 ﻿using CRUD_CSV.Service;
 using CRUD_CSV.Strategy;
 
+using CRUD_CSV.Service;
+
 namespace CRUD_CSV.MenuTools
 {
     public class Menu
     {
-        private List<IMenuStrategy> _menuStrategies;
+        private readonly List<IMenuStrategy> _menuStrategies;
 
-        public Menu(ICsvService service)
+        public Menu(IEnumerable<IMenuStrategy> menuStrategies)
         {
-            // Skapa en lista med strategier i samma ordning
-            // som menyalternativen
-            _menuStrategies = new List<IMenuStrategy>
-            {
-                new CreateMenuStrategy(service),
-                new ReadMenuStrategy(service),
-                new UpdateMenuStrategy(service),
-                new DeleteMenuStrategy(service)
-            };
+            _menuStrategies = menuStrategies.ToList();
         }
 
         public void ShowMenu()
@@ -38,7 +32,7 @@ namespace CRUD_CSV.MenuTools
                 Console.Clear();
                 Console.WriteLine("Använd upp/ned piltangenter för att navigera och tryck på Enter för att välja:");
 
-                // Loopa igenom menyalternativen och markera det valda alternativet
+                // Loop through menu options and highlight the selected option
                 for (int i = 0; i < menuItems.Count; i++)
                 {
                     if (i == selectedIndex)
@@ -53,10 +47,10 @@ namespace CRUD_CSV.MenuTools
                     }
                 }
 
-                // Få input från användaren
+                // Get user input
                 input = Console.ReadKey().Key;
 
-                // Hantera upp/ned piltangenterna
+                // Handle up/down arrow keys
                 if (input == ConsoleKey.UpArrow)
                 {
                     selectedIndex--;
@@ -71,27 +65,18 @@ namespace CRUD_CSV.MenuTools
                 }
                 else if (input == ConsoleKey.Enter)
                 {
-                    // Exekvera motsvarande strategi beroende på vilket alternativ som valts
-                    switch (selectedIndex)
+                    // Execute the selected strategy
+                    if (selectedIndex < _menuStrategies.Count)
                     {
-                        case 0:
-                            _menuStrategies[selectedIndex].Execute(); // Create
-                            break;
-                        case 1:
-                            _menuStrategies[selectedIndex].Execute(); // Read
-                            break;
-                        case 2:
-                            _menuStrategies[selectedIndex].Execute(); // Update
-                            break;
-                        case 3:
-                            _menuStrategies[selectedIndex].Execute(); // Delete
-                            break;
-                        case 4:
-                            Console.WriteLine("Avslutar programmet...");
-                            return; // Avslutar programmet
+                        _menuStrategies[selectedIndex].Execute();
+                    }
+                    else if (selectedIndex == 4) // Exit option
+                    {
+                        Console.WriteLine("Avslutar programmet...");
+                        return; // Exit program
                     }
 
-                    // Återgå till menyn efter att en operation har utförts, utom för Exit
+                    // Return to the menu after an operation, except for Exit
                     if (selectedIndex != 4)
                     {
                         Console.WriteLine("Tryck på valfri tangent för att återgå till menyn...");
